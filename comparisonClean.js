@@ -90,6 +90,9 @@ function runPerformanceTest() {
     const shapes = [square, rectangle, triangle, circle];
     const array = 1000;
 
+    console.log('Response Total Area', totalArea(shapes));
+    console.log('Response Total Area4', totalArea4(shapes));
+
     suite
         .add('Total Area simple', function() {
             totalArea(shapes);

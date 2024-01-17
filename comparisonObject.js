@@ -1,7 +1,6 @@
 const Benchmark = require('benchmark');
 const suite = new Benchmark.Suite;
 const Pi = Math.PI;
-
 class Shape {
     constructor(type, width, height = 1.0) {
         this.type = type;
@@ -35,7 +34,7 @@ function getCValue(type) {
     return CTable[type];
 }
 
-function totalAreaCTable(shapes) {
+function totalAreaObject(shapes) {
     let accum = 0.0;
     shapes.forEach((shape) => {
         accum += shape.getArea();
@@ -44,7 +43,7 @@ function totalAreaCTable(shapes) {
     return accum;
 }
 
-function totalAreaCTable4(shapes) {
+function totalAreaObject4(shapes) {
     let accum0 = 0.0;
     let accum1 = 0.0;
     let accum2 = 0.0;
@@ -69,25 +68,25 @@ function runPerformanceTest() {
     const circle = new Shape('Circle', 2);
 
     const shapes = [square, rectangle, triangle, circle];
-    console.log('Response TotalAreaCTable', totalAreaCTable(shapes));
-    console.log('Response TotalAreaCTable4', totalAreaCTable4(shapes));
+    console.log('Response Total Area Object', totalAreaObject(shapes));
+    console.log('Response Total Area Object4', totalAreaObject4(shapes));
     const array = 1000;
 
     suite
-        .add('Total Area CTable simple', function() {
-            totalAreaCTable(shapes);
+        .add('Total Area Object simple', function() {
+            totalAreaObject(shapes);
         })
-        .add('Total Area CTable4 simple', function() {
-            totalAreaCTable4(shapes);
+        .add('Total Area Object4 simple', function() {
+            totalAreaObject4(shapes);
         })
-        .add('Total Area CTable 1000 interations', function() {
+        .add('Total Area Object 1000 interations', function() {
             for(let i = 0; i < array; i++) {
-                totalAreaCTable(shapes);
+                totalAreaObject(shapes);
             }
         })
-        .add('Total Area CTable4 1000 interations', function() {
+        .add('Total Area Object4 1000 interations', function() {
             for(let i = 0; i < array; i++) {
-                totalAreaCTable4(shapes);
+                totalAreaObject4(shapes);
             }
         })
         .on('cycle', function(event) {

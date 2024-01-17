@@ -43,10 +43,10 @@ function totalAreaSwitch4(shapes) {
     const shapeCount = shapes.length / 4;
 
     for (let i = 0; i < shapeCount; ++i) {
-        accum0 += shapes[i * 4].getArea();
-        accum1 += shapes[i * 4 + 1].getArea();
-        accum2 += shapes[i * 4 + 2].getArea();
-        accum3 += shapes[i * 4 + 3].getArea();
+        accum0 += shapes[i].getArea();
+        accum1 += shapes[i + 1].getArea();
+        accum2 += shapes[i + 2].getArea();
+        accum3 += shapes[i + 3].getArea();
     }
 
     return accum0 + accum1 + accum2 + accum3;
@@ -61,6 +61,9 @@ function runPerformanceTest() {
     const shapes = [square, rectangle, triangle, circle];
     const array = 1000;
 
+    console.log('Response TotalAreaSwitch', totalAreaSwitch(shapes));
+    console.log('Response TotalAreaSwitch4', totalAreaSwitch4(shapes));
+
     suite
         .add('Total Area Switch simple', function() {
             totalAreaSwitch(shapes);
@@ -73,7 +76,7 @@ function runPerformanceTest() {
                 totalAreaSwitch(shapes);
             }
         })
-        .add('Total Area4 Switch4 1000 interations', function() {
+        .add('Total Area Switch4 1000 interations', function() {
             for(let i = 0; i < array; i++) {
                 totalAreaSwitch4(shapes);
             }
