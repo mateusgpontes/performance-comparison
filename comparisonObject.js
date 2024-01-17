@@ -49,13 +49,14 @@ function totalAreaObject4(shapes) {
     let accum2 = 0.0;
     let accum3 = 0.0;
 
-    const shapeCount = shapes.length / 4;
+    let count = shapes.length / 4;
+    while (count--) {
+        accum0 += shapes[0].getArea();
+        accum1 += shapes[1].getArea();
+        accum2 += shapes[2].getArea();
+        accum3 += shapes[3].getArea();
 
-    for (let i = 0; i < shapeCount; ++i) {
-        accum0 += shapes[i].getArea();
-        accum1 += shapes[i + 1].getArea();
-        accum2 += shapes[i + 2].getArea();
-        accum3 += shapes[i + 3].getArea();
+        shapes = shapes.slice(4);
     }
 
     return accum0 + accum1 + accum2 + accum3;

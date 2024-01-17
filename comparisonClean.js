@@ -65,17 +65,20 @@ function totalArea(shapeArray) {
     return accum;
 }
 
-function totalArea4(shapeArray) {
+function totalArea4(shapes) {
     let accum0 = 0.0;
     let accum1 = 0.0;
     let accum2 = 0.0;
     let accum3 = 0.0;
 
-    for (let i = 0; i < shapeArray.length; i += 4) {
-        accum0 += shapeArray[i].area();
-        accum1 += shapeArray[i + 1].area();
-        accum2 += shapeArray[i + 2].area();
-        accum3 += shapeArray[i + 3].area();
+    let count = shapes.length / 4;
+    while (count--) {
+        accum0 += shapes[0].area();
+        accum1 += shapes[1].area();
+        accum2 += shapes[2].area();
+        accum3 += shapes[3].area();
+
+        shapes = shapes.slice(4);
     }
 
     return accum0 + accum1 + accum2 + accum3;

@@ -76,22 +76,22 @@ class Circle extends ShapeBase {
     }
 }
 
-function cornerArea(shapeCount, shapes) {
+function cornerArea(shapes) {
     let accum = 0.0;
-    for (let shapeIndex = 0; shapeIndex < shapeCount; ++shapeIndex) {
-        accum += (1.0 / (1.0 + shapes[shapeIndex].cornerCount())) * shapes[shapeIndex].area();
-    }
+    shapes.forEach((shape) => {
+        accum += ((1.0 / (1.0 + shape.cornerCount())) * shape.area());
+    });
 
     return accum;
 }
 
-function cornerArea4(shapeCount, shapes) {
+function cornerArea4(shapes) {
     let accum0 = 0.0;
     let accum1 = 0.0;
     let accum2 = 0.0;
     let accum3 = 0.0;
 
-    let count = shapeCount / 4;
+    let count = shapes.length / 4;
     while (count--) {
         accum0 += (1.0 / (1.0 + shapes[0].cornerCount())) * shapes[0].area();
         accum1 += (1.0 / (1.0 + shapes[1].cornerCount())) * shapes[1].area();
@@ -112,27 +112,26 @@ function runPerformanceTest() {
     const circle = new Circle(2);
 
     const shapes = [square, rectangle, triangle, circle];
-    const shapeCount = shapes.length
     const array = 1000;
 
-    console.log('Response Corner Area', cornerArea(shapeCount, shapes));
-    console.log('Response Corner Area4', cornerArea4(shapeCount, shapes));
+    console.log('Response Corner Area', cornerArea(shapes));
+    console.log('Response Corner Area4', cornerArea4(shapes));
 
     suite
         .add('Corner Area simple', function() {
-            cornerArea(shapeCount, shapes);
+            cornerArea(shapes);
         })
         .add('Corner Area4 simple', function() {
-            cornerArea4(shapeCount, shapes);
+            cornerArea4(shapes);
         })
         .add('Corner Area 1000 interations', function() {
             for(let i = 0; i < array; i++) {
-                cornerArea(shapeCount, shapes);
+                cornerArea(shapes);
             }
         })
         .add('Corner Area4 1000 interations', function() {
             for(let i = 0; i < array; i++) {
-                cornerArea4(shapeCount, shapes);
+                cornerArea4(shapes);
             }
         })
         .on('cycle', function(event) {
