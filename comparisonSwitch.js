@@ -61,8 +61,8 @@ function runPerformanceTest() {
     const shapes = [square, rectangle, triangle, circle];
     const array = 1000;
 
-    console.log('Response TotalAreaSwitch', totalAreaSwitch(shapes));
-    console.log('Response TotalAreaSwitch4', totalAreaSwitch4(shapes));
+    console.log('Response Total Area Switch', totalAreaSwitch(shapes));
+    console.log('Response Total Area Switch4', totalAreaSwitch4(shapes));
 
     suite
         .add('Total Area Switch simple', function() {
