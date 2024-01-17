@@ -24,6 +24,18 @@ class Shape {
     }
 }
 
+function getCornerCountSwitch(type){
+    const corners = {
+        'Square': 4,
+        'Rectangle': 4,
+        'Triangle': 3,
+        'Circle': 0,
+    }
+
+    return corners[type]
+}
+
+
 function getCValue(type) {
     const CTable = { 
         "Square" : 1.0,
@@ -37,7 +49,7 @@ function getCValue(type) {
 function totalAreaObject(shapes) {
     let accum = 0.0;
     shapes.forEach((shape) => {
-        accum += shape.getArea();
+        accum += ((1.0 / (1.0 + getCornerCountSwitch(shape.type))) * shape.getArea());
     });
 
     return accum;
@@ -51,15 +63,15 @@ function totalAreaObject4(shapes) {
 
     let count = shapes.length / 4;
     while (count--) {
-        accum0 += shapes[0].getArea();
-        accum1 += shapes[1].getArea();
-        accum2 += shapes[2].getArea();
-        accum3 += shapes[3].getArea();
-
+        accum0 += (1.0 / (1.0 + getCornerCountSwitch(shapes[0].type))) * shapes[0].getArea();
+        accum1 += (1.0 / (1.0 + getCornerCountSwitch(shapes[1].type))) * shapes[1].getArea();
+        accum2 += (1.0 / (1.0 + getCornerCountSwitch(shapes[2].type))) * shapes[2].getArea();
+        accum3 += (1.0 / (1.0 + getCornerCountSwitch(shapes[3].type))) * shapes[3].getArea();
         shapes = shapes.slice(4);
     }
 
-    return accum0 + accum1 + accum2 + accum3;
+    const result = accum0 + accum1 + accum2 + accum3;
+    return result;
 }
 
 function runPerformanceTest() {
@@ -69,11 +81,10 @@ function runPerformanceTest() {
     const circle = new Shape('Circle', 2);
 
     const shapes = [square, rectangle, triangle, circle];
-    const array = 1000;
-
     console.log('Response Total Area Object', totalAreaObject(shapes));
     console.log('Response Total Area Object4', totalAreaObject4(shapes));
-    
+    const array = 1000;
+
     suite
         .add('Total Area Object simple', function() {
             totalAreaObject(shapes);
