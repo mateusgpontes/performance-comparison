@@ -58,9 +58,9 @@ class Circle extends ShapeBase {
 
 function totalArea(shapeArray) {
     let accum = 0.0;
-    shapeArray.forEach((shape) => {
-        accum += shape.area();
-    });
+    for (let i = 0; i < shapeArray.length; i++) {
+        accum += shapeArray[i].area();
+    }
 
     return accum;
 }
@@ -84,7 +84,9 @@ function totalArea4(shapes) {
     return accum0 + accum1 + accum2 + accum3;
 }
 
-function runPerformanceTest() {
+module.exports = function runPerformanceTest() {
+    console.log('Benchmark clean iniciado.');
+
     const square = new Square(4);
     const rectangle = new Rectangle(4, 5);
     const triangle = new Triangle(3, 6);
@@ -92,9 +94,6 @@ function runPerformanceTest() {
 
     const shapes = [square, rectangle, triangle, circle];
     const array = 1000;
-
-    console.log('Response Total Area', totalArea(shapes));
-    console.log('Response Total Area4', totalArea4(shapes));
 
     suite
         .add('Total Area simple', function() {
@@ -122,4 +121,3 @@ function runPerformanceTest() {
         .run({ 'async': false });
 }
 
-runPerformanceTest();

@@ -2,34 +2,34 @@ const Benchmark = require('benchmark');
 const suite = new Benchmark.Suite;
 const Pi = Math.PI;
 
-class Shape {
-    constructor(type, width, height) {
-        this.type = type;
-        this.width = width;
-        this.height = height;
-    }
+// create a shape enum object using symbols
+const shapeEnum = {
+    Square: Symbol('Square'),
+    Rectangle: Symbol('Rectangle'),
+    Triangle: Symbol('Triangle'),
+    Circle: Symbol('Circle')
+}
 
-    getArea() {
-        switch (this.type) {
-            case 'Square':
-                return this.width * this.width;
-            case 'Rectangle':
-                return this.width * this.height;
-            case 'Triangle':
-                return 0.5 * this.width * this.height;
-            case 'Circle':
-                return Pi * this.width * this.width;
-            default:
-                return 0.0;
-        }
+function getAreaSwitch (shape) {
+    switch (shape.type) {
+        case shapeEnum.Square:
+            return shape.width * shape.width;
+        case shapeEnum.Rectangle:
+            return shape.width * shape.height;
+        case shapeEnum.Triangle:
+            return 0.5 * shape.width * shape.height;
+        case shapeEnum.Circle:
+            return Pi * shape.width * shape.width;
+        default:
+            return 0.0;
     }
 }
 
 function totalAreaSwitch(shapes) {
     let accum = 0.0;
-    shapes.forEach((shape) => {
-        accum += shape.getArea();
-    });
+    for (let i = 0; i < shapes.length; i++) {
+        accum += getAreaSwitch(shapes[i]);
+    }
 
     return accum;
 }
@@ -42,10 +42,10 @@ function totalAreaSwitch4(shapes) {
 
     let count = shapes.length / 4;
     while (count--) {
-        accum0 += shapes[0].getArea();
-        accum1 += shapes[1].getArea();
-        accum2 += shapes[2].getArea();
-        accum3 += shapes[3].getArea();
+        accum0 += getAreaSwitch(shapes[0]);
+        accum1 += getAreaSwitch(shapes[1]);
+        accum2 += getAreaSwitch(shapes[2]);
+        accum3 += getAreaSwitch(shapes[3]);
 
         shapes = shapes.slice(4);
     }
@@ -53,17 +53,15 @@ function totalAreaSwitch4(shapes) {
     return accum0 + accum1 + accum2 + accum3;
 }
 
-function runPerformanceTest() {
-    const square = new Shape('Square', 4);
-    const rectangle = new Shape('Rectangle', 4, 5);
-    const triangle = new Shape('Triangle', 3, 6);
-    const circle = new Shape('Circle', 2);
+module.exports = function runPerformanceTest() {
+    console.log('Benchmark switch iniciado.');
+    const square = { type: shapeEnum.Square, width: 4 };
+    const rectangle = { type: shapeEnum.Rectangle, width: 4, height: 5 };
+    const triangle = { type: shapeEnum.Triangle, width: 3, height: 6 };
+    const circle = { type: shapeEnum.Circle, width: 2 };
 
     const shapes = [square, rectangle, triangle, circle];
     const array = 1000;
-
-    console.log('Response Total Area Switch', totalAreaSwitch(shapes));
-    console.log('Response Total Area Switch4', totalAreaSwitch4(shapes));
 
     suite
         .add('Total Area Switch simple', function() {
@@ -91,4 +89,3 @@ function runPerformanceTest() {
         .run({ 'async': false });
 }
 
-runPerformanceTest();
